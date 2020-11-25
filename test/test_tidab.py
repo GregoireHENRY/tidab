@@ -1,8 +1,8 @@
 """
-tower_battle
+test tidab
 """
 
-from tower_battle.tower_battle import hello
+from tidab.tidab import hello
 
 
 def test_hello() -> None:

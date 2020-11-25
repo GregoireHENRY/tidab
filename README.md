@@ -1,5 +1,6 @@
-# Tower Battle
+# tidab
 
+AI Tower Defense Battle
 
 ## Setup
 

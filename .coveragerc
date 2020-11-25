@@ -1,6 +1,6 @@
 [run]
-source = tower_battle
-omit = tower_battle/__main__.py
+source = tidab
+omit = tidab/__main__.py
 
 [report]
 exclude_lines =
