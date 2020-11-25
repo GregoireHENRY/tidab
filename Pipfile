@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[requires]
+# python_version = "Python3.8"
+
+[packages]
+
+[dev-packages]
+black = "==20.8b1"
+isort = "*"
+mypy = "*"
+pre-commit = "*"
+pytest = "*"
+pytest-cov = "*"
+pylint = "*"
+pudb = "*"
