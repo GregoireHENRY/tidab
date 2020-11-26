@@ -13,6 +13,13 @@ All notable changes to this project will be documented in this file.
 + units movements limited by borders
 + add color for sides
 
+## 0.1.1.2 - 2020-11-26
+
+### Added
+
++ Implementation of turns, simple pathfinding, and unit move
++ pathfind is going straight to target base without limit and trajectory obstacles
+
 ## 0.1.1.1 - 2020-11-26
 
 ### Changed
