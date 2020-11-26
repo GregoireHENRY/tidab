@@ -12,6 +12,8 @@ from typing import List, Tuple
 
 from pudb import set_trace as bp  # pylint: disable=unused-import
 
+from tidab.cell import Cell, CellState
+
 SIDE_WIDTH = 20
 BORDER_THICKNESS = 1
 SPAWN_WIDTH = 1
@@ -30,9 +32,6 @@ Y_BORDERS = (0, HEIGHT - 1)
 SPAWN_AREA = (1, HEIGHT - 2)
 BLUE_SPAWN_POSITION_X = MIDDLE_POSITION_X - 1
 RED_SPAWN_POSITION_X = MIDDLE_POSITION_X + 1
-EMPTY_CHAR = " "
-BORDER_CHAR = "#"
-UNIT_CHAR = "*"
 
 
 def start() -> None:
@@ -40,11 +39,18 @@ def start() -> None:
 
     # setup field if x or y iterator meet a border condition (outside limits, spawn, middle)
     field = [
-        [BORDER_CHAR if (x in X_BORDERS or y in Y_BORDERS) else EMPTY_CHAR for x in range(WIDTH)]
+        [
+            Cell(CellState.BORDER) if (x in X_BORDERS or y in Y_BORDERS) else Cell(CellState.EMPTY)
+            for x in range(WIDTH)
+        ]
         for y in range(HEIGHT)
     ]
     BLUE_SPAWN_POSITION_Y = random.randint(*SPAWN_AREA)
     RED_SPAWN_POSITION_Y = random.randint(*SPAWN_AREA)
+
+    # apply spawn position
+    field[BLUE_SPAWN_POSITION_Y][BLUE_SPAWN_POSITION_X].change_state(CellState.UNIT)
+    field[RED_SPAWN_POSITION_Y][RED_SPAWN_POSITION_X].change_state(CellState.UNIT)
 
     blue_position_x = BLUE_SPAWN_POSITION_X
     red_position_x = RED_SPAWN_POSITION_X
@@ -61,16 +67,16 @@ def start() -> None:
         )
 
         # apply new position changes
-        field[new_blue_position_y][new_blue_position_x] = UNIT_CHAR
-        field[new_red_position_y][new_red_position_x] = UNIT_CHAR
-
-        # redraw previous cell state
-        field[blue_position_y][blue_position_x] = EMPTY_CHAR
-        field[red_position_y][red_position_x] = EMPTY_CHAR
+        change_cell_from_to(
+            field, blue_position_x, blue_position_y, new_blue_position_x, new_blue_position_y
+        )
+        change_cell_from_to(
+            field, red_position_x, red_position_y, new_red_position_x, new_red_position_y
+        )
 
         # draw field
         for line in field:
-            print("".join(line))
+            print("".join(str(cell) for cell in line))
 
         # save new position for next turn
         blue_position_x, blue_position_y = new_blue_position_x, new_blue_position_y
@@ -83,7 +89,7 @@ def start() -> None:
 
 
 def simple_pathfinding(
-    _field: List[List[str]], position_x: int, position_y: int, side_target: int
+    _field: List[List[Cell]], position_x: int, position_y: int, side_target: int
 ) -> Tuple[int, int]:
     """
     Implement a simple pathfinding before implementing A* algo.
@@ -94,3 +100,15 @@ def simple_pathfinding(
     _X_OBJECTIVE = side_target * WIDTH
     position_x += SIDE_SIGN
     return position_x, position_y
+
+
+def change_cell_from_to(
+    field: List[List[Cell]],
+    old_x: int,
+    old_y: int,
+    new_x: int,
+    new_y: int,
+):
+    """Move the state of a cell to another cell."""
+    field[new_y][new_x].change_state(field[old_y][old_x].state)
+    field[old_y][old_x].revert()
