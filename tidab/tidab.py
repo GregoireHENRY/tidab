@@ -66,6 +66,12 @@ def start() -> None:
             field, red_position_x, red_position_y, 1
         )
 
+        # check if reached spawn
+        if new_blue_position_x <= SPAWN_WIDTH:
+            new_blue_position_x, new_blue_position_y = blue_position_x, blue_position_y
+        if new_red_position_x >= WIDTH - SPAWN_WIDTH - 1:
+            new_red_position_x, new_red_position_y = red_position_x, red_position_y
+
         # apply new position changes
         change_cell_from_to(
             field, blue_position_x, blue_position_y, new_blue_position_x, new_blue_position_y
@@ -97,7 +103,6 @@ def simple_pathfinding(
     If target is blue, side_target is 0, else if it is red, side_target is 1.
     """
     SIDE_SIGN = -1 + side_target * 2
-    _X_OBJECTIVE = side_target * WIDTH
     position_x += SIDE_SIGN
     return position_x, position_y
 

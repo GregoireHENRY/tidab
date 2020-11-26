@@ -13,6 +13,12 @@ All notable changes to this project will be documented in this file.
 + units movements limited by borders
 + add color for sides
 
+## 0.1.1.4 - 2020-11-27
+
+### Added
+
++ Added spawn reach condition
+
 ## 0.1.1.3 - 2020-11-27
 
 ### Added
