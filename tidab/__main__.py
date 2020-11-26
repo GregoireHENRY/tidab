@@ -3,6 +3,6 @@ tidab
 """
 
 
-from tidab.tidab import hello
+from tidab.tidab import start
 
-hello()
+start()

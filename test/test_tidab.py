@@ -2,10 +2,10 @@
 test tidab
 """
 
-from tidab.tidab import hello
+from tidab.tidab import start
 
 
-def test_hello() -> None:
-    """hello test"""
-    hello()
+def test_start() -> None:
+    """start test"""
+    start()
     assert True
